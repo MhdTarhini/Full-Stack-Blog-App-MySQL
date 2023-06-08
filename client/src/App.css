@@ -1,3 +1,18 @@
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+}
+
+.app .container {
+    width: 1024px;
+}
+
+/*login Register page */
 div.login-Register-page {
     display: flex;
     flex-direction: column;
@@ -43,4 +58,229 @@ div.login-Register-page p {
 div.login-Register-page span {
     font-size: 12px;
     text-align: center;
+}
+/*navbar */
+.navbar {}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    align-items: center;
+
+}
+
+.navbar .container .links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar .container .links h6 {
+    font-size: 10px;
+    font-weight: 300;
+}
+
+.navbar .container .links span {
+    cursor: pointer;
+}
+
+.navbar .container .links .Create-Post {
+    background-color: #b9e7e7;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 300;
+    border: 1px solid teal;
+}
+
+.navbar .container .links .Create-Post:hover {
+    color: teal;
+    background-color: white;
+    border: 1px solid teal;
+}
+
+/* footer */
+footer {
+    margin-top: 100px;
+    padding: 20px;
+    height: 50px;
+    background-color: #b9e7e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.posts {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+}
+
+.posts .post {
+    display: flex;
+    gap: 100px;
+}
+
+.posts .post:nth-child(2n+1) {
+    flex-direction: row-reverse;
+}
+
+.posts .post .img {
+    flex: 2;
+    position: relative;
+
+}
+
+.posts .post .img::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #b9e7e7;
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    z-index: -1;
+}
+
+.posts .post .img img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.posts .content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.posts .content h1 {
+    font-size: 48px;
+}
+
+.posts .content p {
+    font-size: 18px;
+}
+
+.posts .content button {
+    width: max-content;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid teal;
+    color: teal;
+}
+
+.posts .content button:hover {
+    border: 1px solid teal;
+    background-color: #b9e7e7;
+    color: black;
+}
+
+/* single-page */
+.single-page {
+    display: flex;
+    gap: 50px;
+}
+
+.single-page .content {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.single-page .content img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.single-page .content .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+
+}
+
+.single-page .content .user .user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.single-page .content .user .user-info span {
+    font-weight: bold;
+}
+
+.single-page .content .user .edit {
+    display: flex;
+    gap: 5px;
+}
+
+.single-page .content .user .edit svg {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.single-page .content h1 {
+    font-size: 42px;
+    color: #333;
+}
+
+.single-page .content p {
+    text-align: justify;
+    line-height: 30px;
+}
+
+.menu {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.menu h1 {
+    font-size: 20px;
+    color: #555;
+}
+
+.menu .post {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu .post img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    color: #555;
+}
+
+.menu .post button {
+    width: max-content;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid teal;
+    color: teal;
+}
+
+.menu .post button:hover {
+    border: 1px solid teal;
+    background-color: #b9e7e7;
+    color: black;
 }
