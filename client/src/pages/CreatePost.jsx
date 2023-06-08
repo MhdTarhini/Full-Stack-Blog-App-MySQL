@@ -4,12 +4,18 @@ import "react-quill/dist/quill.snow.css";
 
 function CreatePost() {
   const [value, setValue] = useState("");
+  const Category = ["Art", "Food", "Technology", "Design", "Science", "Cinema"];
   return (
     <div className="createPost">
       <div className="post-content">
         <input type="text" placeholder="Title" />
         <div className="editorContainer">
-          <ReactQuill theme="snow" value={value} onChange={setValue} />
+          <ReactQuill
+            theme="snow"
+            value={value}
+            onChange={setValue}
+            className="editor"
+          />
         </div>
       </div>
       <div className="post-menu">
@@ -22,24 +28,25 @@ function CreatePost() {
             <b>Visibility: </b>Public
           </span>
           <input type="file" id="file" style={{ display: "none" }} />
-          <label htmlFor="file">Upload Image</label>
+          <label htmlFor="file" id="label-file">
+            Upload Image
+          </label>
           <div className="buttons">
-            <button>Save as a draft</button>
-            <button>Update</button>
+            <button className="buttons-1">Save as a draft</button>
+            <button className="buttons-2">Update</button>
           </div>
         </div>
         <div className="item">
           <h1>Category</h1>
-          <input type="radio" id="art" name="cat" />
-          <label htmlFor="art">Art</label>
-          <input type="radio" id="art" name="cat" />
-          <label htmlFor="art">Science</label>
-          <input type="radio" id="art" name="cat" />
-          <label htmlFor="art">Food</label>
-          <input type="radio" id="art" name="cat" />
-          <label htmlFor="art">Technology</label>
-          <input type="radio" id="art" name="cat" />
-          <label htmlFor="art">Design</label>
+          {Category.map((ele) => {
+            return (
+              <div key={ele} className="category">
+                <input type="radio" id={ele} name="category" />
+                <label htmlFor={ele}>{ele}</label>
+              </div>
+            );
+          })}
+          ;
         </div>
       </div>
     </div>
