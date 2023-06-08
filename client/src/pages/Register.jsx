@@ -7,6 +7,7 @@ function Register() {
     username: "",
     email: "",
     password: "",
+    image: "",
   });
 
   const handlechange = (e) => {
@@ -26,6 +27,7 @@ function Register() {
     <div className="login-Register-page">
       <h1>Register</h1>
       <form>
+        <input required type="file" name="image" onChange={handlechange} />
         <input
           required
           type="text"
