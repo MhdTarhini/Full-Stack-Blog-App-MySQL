@@ -284,3 +284,22 @@ footer {
     background-color: #b9e7e7;
     color: black;
 }
+
+/* .Create Post page */
+
+.createPost {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.createPost .post-content {
+    flex: 5;
+}
+
+.createPost .post-menu {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
