@@ -1,20 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function HomePage() {
+  const [posts, setPosts] = useState([]);
+  const category = useLocation().search;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`posts/${category}`);
+        setPosts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [category]);
   return (
     <div className="hone-page">
       <div className="posts">
-        <div className="post">
-          <div className="img">{/* <img src="" /> */}</div>
-          <div className="content">
-            <Link to={"/post/:id"} className="link">
-              <h1>title</h1>
-            </Link>
-            <p>description</p>
-            <button>Read more</button>
-          </div>
-        </div>
+        {posts.map((ele) => {
+          return (
+            <div className="post" key={ele.id}>
+              <div className="img">
+                <img src={ele.image} alt={ele.title} />
+              </div>
+              <div className="content">
+                <Link to={`/post/${ele.id}`} className="link">
+                  <h1>{ele.title}</h1>
+                </Link>
+                <p>{ele.description}</p>
+                <button>Read more</button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

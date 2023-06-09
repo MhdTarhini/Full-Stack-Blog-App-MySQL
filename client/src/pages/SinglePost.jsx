@@ -1,68 +1,94 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PostsMenu from "../component/PostsMenu";
+import axios from "axios";
+import moment from "moment";
+import { AuthContext } from "../context/authContext";
 
 function SinglePost() {
+  const [post, setPost] = useState([]);
+  const postId = useParams();
+  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts/${postId.id}`);
+        setPost(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [postId]);
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (confirmed) {
+      try {
+        await axios.delete(`/posts/${postId.id}`);
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div className="single-page">
       <div className="content">
-        {/* <img /> */}
+        <img src={post.image} alt={post.title} />
         <div className="user">
-          {/* <img/> */}
+          <img
+            className="mini-profile-image"
+            src={post.userImage}
+            alt={post.username}
+          />
           <div className="user-info">
-            <span>Username</span>
-            <p>Posted 2 days ago</p>
+            <span>{post.username}</span>
+            <div>Posted {moment(post.date).fromNow()}</div>
           </div>
-          <div className="edit">
-            <Link to={"/createPost?edit=2"}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                />
-              </svg>
-            </Link>
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+          {currentUser.username === post.username && (
+            <div className="edit">
+              <Link to={"/createPost?edit=2"}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </Link>
+              <div>
+                <svg
+                  onClick={handleDelete}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          )}
         </div>
-        <h1>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum ex odit
-          quaerat obcaecati consectetur nihil commodi quibusdam, vitae, eius a
-          dolore enim, labore incidunt? Suscipit laboriosam eaque ipsa aliquid
-          exercitationem?
-        </h1>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui tenetur
-          rem in eum provident assumenda recusandae soluta! Excepturi velit
-          natus cumque odio, corrupti praesentium numquam nisi dicta commodi
-          consequuntur ut! Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Error deleniti, incidunt beatae explicabo similique ut. Incidunt
-          similique pariatur, aut enim corporis, quis natus voluptate laudantium
-          dolorem officia repudiandae libero nobis!Lorem
-        </p>
+        <h1>{post.title}</h1>
+        <p>{post.description}</p>
       </div>
-      <PostsMenu />
+      <PostsMenu category={post.category} thisPost={postId.id} />
     </div>
   );
 }
