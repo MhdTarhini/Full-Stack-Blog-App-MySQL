@@ -23,7 +23,7 @@ const register = (req, res) => {
 const login = (req, res) => {
   console.log(req.body);
   //CHECK USER
-  const q = "SELECT FROM users WHERE username=?";
+  const q = "SELECT * FROM users WHERE username=?";
   db.query(q, [req.body.username], (err, data) => {
     if (err) return res.json(err);
     if (data.length === 0) return res.status(404).json("User not found !");
@@ -35,17 +35,16 @@ const login = (req, res) => {
     );
     if (!isPasswordValid)
       return res.status(400).json("Wrong Username or Password");
+    //LOGIN
+    const token = jwt.sign({ id: data[0].id }, "jwtKey");
+    const { password, ...other } = data[0]; // we shouldn't send the password
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(other);
   });
-  //LOGIN
-  const token = jwt.sign({ id: data[0].id }, "jwtKey");
-  console.log(data);
-  const { password, ...other } = data[0];
-  res
-    .cookie("access_token", token, {
-      httpOnly: true,
-    })
-    .status(200)
-    .json(other);
 };
 const logout = (req, res) => {};
 
