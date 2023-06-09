@@ -11,7 +11,6 @@ function Register() {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
   const handlechange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
