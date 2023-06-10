@@ -24,7 +24,7 @@ function PostsMenu(props) {
       {filteredPosts.map((ele) => {
         return (
           <div className="post" key={ele.id}>
-            <img src={ele.image} alt={ele.title} />
+            <img src={`../uploads/${ele.image}`} alt={ele.title} />
             <h2>{ele.title}</h2>
             <Link to={`/post/${ele.id}`}>
               <button>Read More</button>

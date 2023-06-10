@@ -16,6 +16,11 @@ function HomePage() {
     };
     fetchData();
   }, [category]);
+
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
   return (
     <div className="hone-page">
       <div className="posts">
@@ -23,13 +28,13 @@ function HomePage() {
           return (
             <div className="post" key={ele.id}>
               <div className="img">
-                <img src={ele.image} alt={ele.title} />
+                <img src={`../uploads/${ele.image}`} alt={ele.title} />
               </div>
               <div className="content">
                 <Link to={`/post/${ele.id}`} className="link">
                   <h1>{ele.title}</h1>
                 </Link>
-                <p>{ele.description}</p>
+                <p>{getText(ele.description)}</p>
                 <button>Read more</button>
               </div>
             </div>

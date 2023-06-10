@@ -1,28 +1,59 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useLocation } from "react-router-dom";
 
 function CreatePost() {
-  const [value, setValue] = useState("");
-  const [title, seTitle] = useState("");
-  const [file, setfile] = useState("");
-  const [category, setcategory] = useState("");
+  const postState = useLocation().state; //import post state from singlePost
+  const [value, setValue] = useState(postState?.description || "");
+  const [title, seTitle] = useState(postState?.title || "");
+  const [file, setfile] = useState(null);
+  const [category, setcategory] = useState(postState?.category || "");
 
-  const Category = ["Art", "Food", "Technology", "Design", "Science", "Cinema"];
+  const MainCategory = [
+    "Art",
+    "Food",
+    "Technology",
+    "Design",
+    "Science",
+    "Cinema",
+  ];
 
   const upload = async () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
       const res = await axios.post("/upload", formData);
-      console.log(res);
-    } catch (error) {}
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    upload();
+    try {
+      if (postState) {
+        await axios.put(`posts/${postState.id}`, {
+          title: title,
+          description: value,
+          category: category,
+          image: file ? await upload() : "",
+        });
+      } else {
+        await axios.post(`posts/`, {
+          title: title,
+          description: value,
+          category: category,
+          image: file ? await upload() : "",
+          date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="createPost">
@@ -30,6 +61,7 @@ function CreatePost() {
         <input
           type="text"
           placeholder="Title"
+          value={title}
           onChange={(e) => seTitle(e.target.value)}
         />
         <div className="editorContainer">
@@ -53,10 +85,10 @@ function CreatePost() {
           <input
             type="file"
             id="file"
-            style={{ display: "none" }}
+            style={{ display: "none", cursor: "pointer" }}
             onChange={(e) => setfile(e.target.files[0])}
           />
-          <label htmlFor="file" id="label-file">
+          <label htmlFor="file" id="label-file" style={{ cursor: "pointer" }}>
             Upload Image
           </label>
           <div className="buttons">
@@ -68,13 +100,19 @@ function CreatePost() {
         </div>
         <div className="item">
           <h1>Category</h1>
-          {Category.map((ele) => {
+          {MainCategory.map((ele) => {
             return (
-              <div
-                key={ele}
-                className="category"
-                onChange={(e) => setcategory(e.target.value)}>
-                <input type="radio" id={ele} name="category" />
+              <div key={ele} className="category">
+                <input
+                  type="radio"
+                  id={ele}
+                  name="category"
+                  value={ele}
+                  checked={
+                    category.toLocaleLowerCase() === ele.toLocaleLowerCase()
+                  }
+                  onChange={(e) => setcategory(e.target.value)}
+                />
                 <label htmlFor={ele}>{ele}</label>
               </div>
             );

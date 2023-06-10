@@ -38,7 +38,7 @@ function SinglePost() {
   return (
     <div className="single-page">
       <div className="content">
-        <img src={post.image} alt={post.title} />
+        <img src={`../uploads/${post.image}`} alt={post.title} />
         <div className="user">
           <img
             className="mini-profile-image"
@@ -51,7 +51,7 @@ function SinglePost() {
           </div>
           {currentUser?.username === post.username && (
             <div className="edit">
-              <Link to={"/createPost?edit=2"}>
+              <Link to={"/createPost?edit=2"} state={post}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -86,7 +86,10 @@ function SinglePost() {
           )}
         </div>
         <h1>{post.title}</h1>
-        <p>{post.description}</p>
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: post.description }}
+        />
       </div>
       <PostsMenu category={post.category} thisPost={postId.id} />
     </div>
