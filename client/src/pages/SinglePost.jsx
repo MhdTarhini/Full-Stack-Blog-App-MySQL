@@ -49,7 +49,7 @@ function SinglePost() {
             <span>{post.username}</span>
             <div>Posted {moment(post.date).fromNow()}</div>
           </div>
-          {currentUser.username === post.username && (
+          {currentUser?.username === post.username && (
             <div className="edit">
               <Link to={"/createPost?edit=2"}>
                 <svg

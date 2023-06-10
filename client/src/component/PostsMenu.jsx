@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function PostsMenu(props) {
   const { category, thisPost } = props;
-  console.log(thisPost);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -18,9 +17,7 @@ function PostsMenu(props) {
     };
     fetchData();
   }, [category]);
-  console.log(posts);
   const filteredPosts = posts.filter((post) => post.id !== parseInt(thisPost));
-  console.log(filteredPosts);
   return (
     <div className="menu">
       <h1>Other Posts You May Like</h1>
